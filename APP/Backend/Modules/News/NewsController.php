@@ -1,39 +1,54 @@
 <?php
 namespace App\Backend\Modules\News;
- 
+
+
+use App\Backend\AppController;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
+use \OCFram\FormHandler;
+
 use \Entity\News;
 use \Entity\Comment;
+
 use \FormBuilder\CommentFormBuilder;
 use \FormBuilder\NewsFormBuilder;
-use \OCFram\FormHandler;
  
 class NewsController extends BackController
 {
+
+  use AppController;
+
   public function executeDelete(HTTPRequest $request)
   {
-    $newsId = $request->getData('id');
- 
-    $this->managers->getManagerOf('News')->delete($newsId);
-    $this->managers->getManagerOf('Comments')->deleteFromNews($newsId);
- 
-    $this->app->user()->setFlash('La news a bien été supprimée !');
- 
-    $this->app->httpResponse()->redirect('.');
+
+      $newsId = $request->getData('id');
+      if($this->managers->getManagerOf('News')->get($request->getData('id'))==false){
+          $this->app->httpResponse()->redirect404();
+      }
+          $this->managers->getManagerOf('News')->delete($newsId);
+          $this->managers->getManagerOf('Comments')->deleteFromNews($newsId);
+
+          $this->app->user()->setFlash('La news a bien été supprimée !');
+
+          $this->app->httpResponse()->redirect('.');
   }
  
   public function executeDeleteComment(HTTPRequest $request)
   {
-    $this->managers->getManagerOf('Comments')->delete($request->getData('id'));
- 
-    $this->app->user()->setFlash('Le commentaire a bien été supprimé !');
- 
+      $commentsId = $this->managers->getManagerOf('Comments')->get($request->getData('id'));
+      if($commentsId == null){
+          $this->app->httpResponse()->redirect404();
+      }
+      $this->managers->getManagerOf('Comments')->delete($request->getData('id') );
+
+      $this->app->user()->setFlash('Le commentaire a bien été supprimé !');
     $this->app->httpResponse()->redirect('.');
   }
  
   public function executeIndex(HTTPRequest $request)
   {
+    $this->run();
+
     $this->page->addVar('title', 'Gestion des news');
  
     $manager = $this->managers->getManagerOf('News');
@@ -58,6 +73,9 @@ class NewsController extends BackController
  
   public function executeUpdateComment(HTTPRequest $request)
   {
+
+    $this->run();
+
     $this->page->addVar('title', 'Modification d\'un commentaire');
  
     if ($request->method() == 'POST')
@@ -65,12 +83,16 @@ class NewsController extends BackController
       $comment = new Comment([
         'id' => $request->getData('id'),
         'auteur' => $request->postData('auteur'),
+          'mail' => $request->postData('mail'),
         'contenu' => $request->postData('contenu')
       ]);
     }
     else
     {
       $comment = $this->managers->getManagerOf('Comments')->get($request->getData('id'));
+        if ($comment == null){
+            $this->app->httpResponse()->redirect404();
+        }
     }
  
     $formBuilder = new CommentFormBuilder($comment);
@@ -92,6 +114,9 @@ class NewsController extends BackController
  
   public function processForm(HTTPRequest $request)
   {
+
+    $this->run();
+
     if ($request->method() == 'POST')
     {
       $news = new News([
@@ -108,16 +133,21 @@ class NewsController extends BackController
     else
     {
       // L'identifiant de la news est transmis si on veut la modifier
-      if ($request->getExists('id'))
+      if ($request->getExists('id') )
       {
-        $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
+          $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
+          if( $news ==null ){
+
+              $this->app->httpResponse()->redirect404();
+          }
+
       }
       else
       {
         $news = new News;
       }
     }
- 
+
     $formBuilder = new NewsFormBuilder($news);
     $formBuilder->build();
  
@@ -134,4 +164,5 @@ class NewsController extends BackController
  
     $this->page->addVar('form', $form->createView());
   }
+
 }

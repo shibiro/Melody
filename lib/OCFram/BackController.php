@@ -8,17 +8,20 @@ abstract class BackController extends ApplicationComponent
   protected $page = null;
   protected $view = '';
   protected $managers = null;
- 
+  protected $detect ='';
+
+
   public function __construct(Application $app, $module, $action)
   {
     parent::__construct($app);
  
     $this->managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
     $this->page = new Page($app);
- 
+
     $this->setModule($module);
     $this->setAction($action);
     $this->setView($action);
+
   }
  
   public function execute()
@@ -68,5 +71,15 @@ abstract class BackController extends ApplicationComponent
     $this->view = $view;
  
     $this->page->setContentFile(__DIR__.'/../../App/'.$this->app->name().'/Modules/'.$this->module.'/Views/'.$this->view.'.php');
+  }
+
+  public function jump($targetmodule, $targetaction)
+  {
+
+      $this->setModule($targetmodule);
+      $this->setAction($targetaction);
+      $this->setView($targetaction);
+
+      $this->execute();
   }
 }

@@ -89,4 +89,5 @@ class News extends Entity
   {
     return $this->dateModif;
   }
+
 }

@@ -9,7 +9,6 @@ abstract class FormBuilder
   {
     $this->setForm(new Form($entity));
   }
- 
   abstract public function build();
  
   public function setForm(Form $form)

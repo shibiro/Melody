@@ -8,25 +8,37 @@
     <meta charset="utf-8" />
  
     <link rel="stylesheet" href="/css/Envision.css" type="text/css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="..\javascript\loadNewComment.js"></script>
+
   </head>
- 
+
   <body>
     <div id="wrap">
       <header>
-        <h1><a href="/">Mon super site</a></h1>
+        <?php echo '<h1><a href='.$Router->getBuiltRoute('News','index',[]).'>Mon super site</a></h1>' ?>
         <p>Comment ça, il n'y a presque rien ?</p>
       </header>
- 
+
       <nav>
         <ul>
-          <li><a href="/">Accueil</a></li>
-          <?php if ($user->isAuthenticated()) { ?>
-          <li><a href="/admin/">Admin</a></li>
-          <li><a href="/admin/news-insert.html">Ajouter une news</a></li>
-          <?php } ?>
+          <?php echo '<li><a href='.$Router->BuildRoute('News','index',[]).'>Accueil</a></li>' ?>
+
+          <?php
+
+          if (isset($menu_nav)){
+
+            foreach($menu_nav as $value){
+              foreach($value as $value2) {
+                echo '<li><a href=' . $value2['link'] . '>' . $value2['text'] . '</a></li>';
+              }
+            }
+
+          }?>
         </ul>
       </nav>
- 
+
       <div id="content-wrap">
         <section id="main">
           <?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>

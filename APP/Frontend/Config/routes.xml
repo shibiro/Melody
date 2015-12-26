@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <routes>
   <route url="/" module="News" action="index" />
-  <route url="/news-([0-9]+)\.html" module="News" action="show" vars="id"/>
-  <route url="/commenter-([0-9]+)\.html" module="News" action="insertComment" vars="news" />
+  <route url="/News/show-([0-9]+)" module="News" action="show" vars="id"/>
+  <route url="/News/insert" module="News" action="insert" />
+  <route url="/News/update-([0-9]+)" module="News" action="update" vars="id" />
+  <route url="/News/delete-([0-9]+)" module="News" action="delete" vars="id" />
+
+  <route url="/News/insertComment-([0-9]+)" module="News" action="insertComment" vars="news" />
+
+
+  <route url="/News/getNewComments" module="News" action="getNewComments" />
+  <route url="/News/getOldComments" module="News" action="getOldComments" />
+
+
+  <route url="/Device/index" module="Device" action="index" />
+
+  <route url="/Register/index" module="Register" action="index" />
+
+
+  <route url="/Profil/index" module="Profil" action="index" />
+  <route url="/Profil/News" module="Profil" action="News" />
+  <route url="/Profil/Comments" module="Profil" action="Comments" />
+
+  <route url="/Membre/index-([0-9a-zA-Z]+)" module="Membre" action="index" vars="id"/>
+  <route url="/Membre/News-([0-9a-zA-Z]+)" module="Membre" action="News" vars="id"/>
+  <route url="/Membre/Comments-([0-9a-zA-Z]+)" module="Membre" action="Comments" vars="id" />
+
+
+  <route url="/Tag/index" module="Tag" action="index" />
+  <route url="/Tag/ShowTag-([0-9]+)" module="Tag" action="ShowTag" vars="id"  />
+
+  <route url="/Connexion/index" module="Connexion" action="index" />
+
+  <route url="/Deconnexion/index" module="Deconnexion" action="index" />
+
 </routes>

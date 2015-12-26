@@ -1,0 +1,12 @@
+{
+    "name": "cleconte/tuto",
+    "require": {
+        "mobiledetect/mobiledetectlib": "~2.8"
+    },
+    "authors": [
+        {
+            "name": "cleconte",
+            "email": "c.leconte@dreamcentury.com"
+        }
+    ]
+}

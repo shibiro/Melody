@@ -16,7 +16,8 @@ class Route
     $this->setAction($action);
     $this->setVarsNames($varsNames);
   }
- 
+
+
   public function hasVars()
   {
     return !empty($this->varsNames);
@@ -86,5 +87,10 @@ class Route
   public function varsNames()
   {
     return $this->varsNames;
+  }
+
+  public function url()
+  {
+    return $this->url;
   }
 }

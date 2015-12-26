@@ -4,6 +4,7 @@
     <list default="true" id="7453af6a-a7e5-4d63-859f-ec740781fbb2" name="Default" comment="" />
     <ignored path="Melody.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
